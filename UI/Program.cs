@@ -13,7 +13,6 @@ using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add DatabaseContext
 builder.Services.AddSingleton(new DatabaseContext(
 		builder.Configuration.GetConnectionString("DefaultConnection")
 ));
@@ -28,15 +27,12 @@ builder.Logging.AddEventLog();
 
 
 
-// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Run the database initialization
 using (var scope = app.Services.CreateScope())
 {
 	var services = scope.ServiceProvider;
@@ -44,7 +40,6 @@ using (var scope = app.Services.CreateScope())
 	dataContext.Init();
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
