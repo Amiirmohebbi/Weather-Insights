@@ -34,7 +34,7 @@ namespace DataAccess.DatabaseHelper
 										UserId UNIQUEIDENTIFIER,
 										Latitude FLOAT,
 										Longitude FLOAT,
-										TimeZone VARCHAR(25),
+										TimeZone VARCHAR(20),
 										CreatedDate DATETIME DEFAULT GETDATE());
 
                 END
@@ -63,14 +63,14 @@ namespace DataAccess.DatabaseHelper
 										CREATE TABLE WeatherDetailUnits (
 										Guid UNIQUEIDENTIFIER NOT NULL DEFAULT(NEWID()) PRIMARY KEY,
 										WeatherDetailGuid UNIQUEIDENTIFIER,
-										Time NVARCHAR(15),
-										Temperature NVARCHAR(15),
-										WindSpeed NVARCHAR(15),
-										Rain NVARCHAR(15),
-										Showers NVARCHAR(15),
-										Snowfall NVARCHAR(15),
-										CloudCover NVARCHAR(15),
-										Pressure NVARCHAR(15),
+										Time NVARCHAR(10),
+										Temperature NVARCHAR(10),
+										WindSpeed NVARCHAR(10),
+										Rain NVARCHAR(10),
+										Showers NVARCHAR(10),
+										Snowfall NVARCHAR(10),
+										CloudCover NVARCHAR(10),
+										Pressure NVARCHAR(10),
 										FOREIGN KEY (WeatherDetailGuid) REFERENCES WeatherDetails(Guid));
 
                 END
@@ -79,7 +79,7 @@ namespace DataAccess.DatabaseHelper
 								BEGIN
 												CREATE TABLE Configuration (
 										Id INT PRIMARY KEY IDENTITY(1,1),
-										[Key] NVARCHAR(255) NOT NULL,
+										[Key] NVARCHAR(50) NOT NULL,
 										Value NVARCHAR(255) NOT NULL);
 
 								END";
