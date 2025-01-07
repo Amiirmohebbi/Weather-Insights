@@ -28,7 +28,7 @@ namespace DataAccess.Repository
 											l.Latitude,
 											l.Longitude,
 											l.TimeZone,
-											l.CreatedAt,
+											l.CreatedDate,
 											wd.Time,
 											wd.Temperature,
 											wd.WeatherCode,
@@ -53,7 +53,7 @@ namespace DataAccess.Repository
 											INNER JOIN WeatherDetailUnits wdu ON wd.Guid = wdu.WeatherDetailGuid
 									WHERE
 											l.Latitude = @Latitude AND l.Longitude = @Longitude
-									ORDER BY CreatedAt DESC";
+									ORDER BY CreatedDate DESC";
 
 			var result = await dbConnection.QueryAsync<WeatherForecastDto, CurrentWeatherDto, CurrentWeatherUnitsDto, WeatherForecastDto>(
 					query,
