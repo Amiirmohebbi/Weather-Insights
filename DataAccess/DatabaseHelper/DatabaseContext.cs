@@ -4,11 +4,11 @@ using System.Data;
 
 namespace DataAccess.DatabaseHelper
 {
-	public class DatabaseContext
+	public class DbInitializer
 	{
 		private readonly string connectionString;
 
-		public DatabaseContext(string connectionString)
+		public DbInitializer(string connectionString)
 		{
 			this.connectionString = connectionString;
 		}
