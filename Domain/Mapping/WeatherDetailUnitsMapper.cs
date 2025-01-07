@@ -5,10 +5,11 @@ namespace Domain.Mapping
 {
 	public static class WeatherDetailUnitsMapper
 	{
-		public static WeatherDetailUnits ToDataModel(this CurrentWeatherUnitsDto currentWeatherUnitsDto)
+		public static WeatherDetailUnits ToDataModel(this CurrentWeatherUnitsDto currentWeatherUnitsDto, Guid weatherDetailGuid)
 		{
 			return new WeatherDetailUnits() 
 			{
+				WeatherDetailGuid = weatherDetailGuid,
 				CloudCover = currentWeatherUnitsDto.CloudCover,
 				Pressure = currentWeatherUnitsDto.Pressure,
 				Rain = currentWeatherUnitsDto.Rain,

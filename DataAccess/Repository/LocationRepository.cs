@@ -3,6 +3,7 @@ using Domain.DataAccess.Location;
 using Domain.DataModel;
 using Domain.Dto;
 using System.Data;
+using Z.Dapper.Plus;
 
 namespace DataAccess.Repository
 {
@@ -15,20 +16,15 @@ namespace DataAccess.Repository
 			this.dbConnection = dbConnection;
 		}
 
-		public int AddLocation(Location location)
+		public void AddLocations(IEnumerable<Location> locations)
 		{
-			var sql = @"
-            INSERT INTO Locations (UserId, Latitude, Longitude, TimeZone, CreatedAt)
-            VALUES (@UserId, @Latitude, @Longitude, @TimeZone, @CreatedAt);
-            SELECT CAST(SCOPE_IDENTITY() as int);";
-
-			return dbConnection.ExecuteScalar<int>(sql, location);
+			dbConnection.BulkInsert(locations);
 		}
 
 		public async Task<WeatherForecastDto> GetWeatherByLocationAsync(float latitude, float longitude)
 		{
 			var query = @"
-									SELECT
+									SELECT TOP 1
 											l.Latitude,
 											l.Longitude,
 											l.TimeZone,
@@ -53,8 +49,8 @@ namespace DataAccess.Repository
 											wdu.Pressure AS UnitPressure
 									FROM
 											Locations l
-											INNER JOIN WeatherDetails wd ON l.Id = wd.LocationId
-											INNER JOIN WeatherDetailUnits wdu ON wd.Id = wdu.WeatherDetailId
+											INNER JOIN WeatherDetails wd ON l.Guid = wd.LocationGuid
+											INNER JOIN WeatherDetailUnits wdu ON wd.Guid = wdu.WeatherDetailGuid
 									WHERE
 											l.Latitude = @Latitude AND l.Longitude = @Longitude
 									ORDER BY CreatedAt DESC";

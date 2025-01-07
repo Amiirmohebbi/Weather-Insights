@@ -5,11 +5,11 @@ namespace Domain.Mapping
 {
 	public static class WeatherForecastMapper
 	{
-		public static Location ToLocationDataModel(this WeatherForecastDto weatherForecastDto, Guid userId)
+		public static Location ToLocationDataModel(this WeatherForecastDto weatherForecastDto)
 		{
 			return new Location()
 			{
-				UserId = userId,
+				UserId = weatherForecastDto.UserId,
 				Latitude = weatherForecastDto.Latitude,
 				Longitude = weatherForecastDto.Longitude,
 				TimeZone = weatherForecastDto.Timezone,

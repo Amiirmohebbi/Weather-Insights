@@ -6,5 +6,6 @@ namespace Domain.Service
 	{
 		Task<WeatherForecastDto> GetWeatherAsync(WeatherFetcherDto weatherFetcherDto);
 		Task<WeatherForecastDto> GetLastWeatherAsyncByLocation(float latitude, float longitude);
+		void ManageWeatherData(IEnumerable<WeatherForecastDto> weatherForecastDtos);
 	}
 }

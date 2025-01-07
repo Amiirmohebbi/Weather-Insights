@@ -4,8 +4,13 @@ namespace Domain.DataModel
 {
 	public class WeatherDetail
 	{
-		public int Id { get; set; }
-		public int LocationId { get; set; }
+		public WeatherDetail()
+		{
+			Guid = Guid.NewGuid();
+		}
+
+		public Guid Guid { get; set; }
+		public Guid LocationGuid { get; set; }
 		public DateTime Time { get; set; }
 		public float Temperature { get; set; }
 		public WeatherCode WeatherCode { get; set; }

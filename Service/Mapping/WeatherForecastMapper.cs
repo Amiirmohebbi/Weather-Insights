@@ -5,10 +5,11 @@ namespace Service.Mapping
 {
 	public static class WeatherForecastMapper
 	{
-		public static WeatherForecastDto ToDto(this WeatherForecast weatherForecast)
+		public static WeatherForecastDto ToDto(this WeatherForecast weatherForecast, Guid userId)
 		{
 			return new WeatherForecastDto()
 			{
+				UserId = userId,
 				Latitude = weatherForecast.Latitude,
 				Longitude = weatherForecast.Longitude,
 				Timezone = weatherForecast.Timezone,

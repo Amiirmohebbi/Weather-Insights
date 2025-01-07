@@ -1,7 +1,7 @@
-﻿using Dapper;
-using Domain.DataAccess.WeatherDetailUnits;
+﻿using Domain.DataAccess.WeatherDetailUnits;
 using Domain.DataModel;
 using System.Data;
+using Z.Dapper.Plus;
 
 public class WeatherDetailUnitsRepository : IWeatherDetailUnitsRepository
 {
@@ -12,13 +12,8 @@ public class WeatherDetailUnitsRepository : IWeatherDetailUnitsRepository
 		this.dbConnection = dbConnection;
 	}
 
-	public int AddWeatherDetailUnits(WeatherDetailUnits weatherDetailUnits)
+	public void AddWeatherDetailUnits(IEnumerable<WeatherDetailUnits> weatherDetailUnits)
 	{
-		var sql = @"
-            INSERT INTO WeatherDetailUnits (WeatherDetailId, Time, Temperature, WindSpeed, Rain, Showers, Snowfall, CloudCover, Pressure)
-            VALUES (@WeatherDetailId, @Time, @Temperature, @WindSpeed, @Rain, @Showers, @Snowfall, @CloudCover, @Pressure);
-            SELECT CAST(SCOPE_IDENTITY() as int);";
-
-		return dbConnection.ExecuteScalar<int>(sql, weatherDetailUnits);
+		dbConnection.BulkInsert(weatherDetailUnits);
 	}
 }

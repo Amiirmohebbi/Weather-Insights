@@ -1,9 +1,10 @@
 ﻿using Domain.Dto;
+using System.Collections.Concurrent;
 
 namespace Domain.ExternalService
 {
 	public interface IOpenMeteoService
 	{
-		Task<WeatherForecastDto> GetWeatherByLocationAsync(float latitude, float longitude);
+		Task<WeatherForecastDto> GetWeatherByLocationAsync(WeatherFetcherDto weatherFetcherDto);
 	}
 }

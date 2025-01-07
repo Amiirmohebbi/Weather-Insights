@@ -35,20 +35,27 @@ namespace Service.WeatherService
 
 		public async Task<WeatherForecastDto> GetWeatherAsync(WeatherFetcherDto weatherFetcherDto)
 		{
-			var result = await openMeteoService.GetWeatherByLocationAsync(weatherFetcherDto.Latitude, weatherFetcherDto.Longitude);
-
-			ManageWeatherDataAsync(result, weatherFetcherDto.UserId);
+			var result = await openMeteoService.GetWeatherByLocationAsync(weatherFetcherDto);
 
 			return result;
 		}
 
-		private void ManageWeatherDataAsync(WeatherForecastDto weatherForecastDto, Guid userId)
+		public void ManageWeatherData(IEnumerable<WeatherForecastDto> weatherForecastDtos)
 		{
-			var location = weatherForecastDto.ToLocationDataModel(userId);
+			var locations = new List<Location>();
+			var weatherDetails = new List<WeatherDetail>();
+			var weatherDetailUnits = new List<WeatherDetailUnits>();
 
-			var weatherDetail = weatherForecastDto.CurrentWeather.ToDataModel();
-
-			var weatherDetailUnits = weatherForecastDto.CurrentUnits.ToDataModel();
+			foreach (var weatherForecastDto in weatherForecastDtos)
+			{
+				var location = weatherForecastDto.ToLocationDataModel();
+				var weatherDetail = weatherForecastDto.CurrentWeather.ToDataModel(location.Guid);
+				var weatherDetailUnit = weatherForecastDto.CurrentUnits.ToDataModel(weatherDetail.Guid);
+				
+				locations.Add(location);
+				weatherDetails.Add(weatherDetail);
+				weatherDetailUnits.Add(weatherDetailUnit);
+			}
 
 			using (var transaction = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
 			{
@@ -56,14 +63,8 @@ namespace Service.WeatherService
 				Timeout = TransactionManager.DefaultTimeout
 			}))
 			{
-				var locationId = locationRepository.AddLocation(location);
-
-				weatherDetail.LocationId = locationId;
-				
-				var weatherDetailId = weatherDetailRepository.AddWeatherDetail(weatherDetail);
-				
-				weatherDetailUnits.WeatherDetailId = weatherDetailId;
-
+				locationRepository.AddLocations(locations);
+				weatherDetailRepository.AddWeatherDetails(weatherDetails);
 				weatherDetailUnitsRepository.AddWeatherDetailUnits(weatherDetailUnits);
 
 				transaction.Complete();

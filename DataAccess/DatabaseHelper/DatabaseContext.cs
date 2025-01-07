@@ -30,7 +30,7 @@ namespace DataAccess.DatabaseHelper
                 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Locations')
                 BEGIN
                     CREATE TABLE Locations (
-										Id INT PRIMARY KEY IDENTITY(1,1),
+										Guid UNIQUEIDENTIFIER NOT NULL DEFAULT(NEWID()) PRIMARY KEY,
 										UserId UNIQUEIDENTIFIER,
 										Latitude FLOAT,
 										Longitude FLOAT,
@@ -42,8 +42,8 @@ namespace DataAccess.DatabaseHelper
 								IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'WeatherDetails')
                 BEGIN
 										CREATE TABLE WeatherDetails (
-										Id INT PRIMARY KEY IDENTITY(1,1),
-										LocationId INT,
+										Guid UNIQUEIDENTIFIER NOT NULL DEFAULT(NEWID()) PRIMARY KEY,
+										LocationGuid UNIQUEIDENTIFIER,
 										Time DATETIME,
 										Temperature FLOAT,
 										WeatherCode INT,
@@ -54,15 +54,15 @@ namespace DataAccess.DatabaseHelper
 										Snowfall FLOAT,
 										CloudCover INT,
 										Pressure FLOAT,
-										FOREIGN KEY (LocationId) REFERENCES Locations(Id));
+										FOREIGN KEY (LocationGuid) REFERENCES Locations(Guid));
 
                 END
 
 								IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'WeatherDetailUnits')
                 BEGIN
 										CREATE TABLE WeatherDetailUnits (
-										Id INT PRIMARY KEY IDENTITY(1,1),
-										WeatherDetailId INT,
+										Guid UNIQUEIDENTIFIER NOT NULL DEFAULT(NEWID()) PRIMARY KEY,
+										WeatherDetailGuid UNIQUEIDENTIFIER,
 										Time NVARCHAR(15),
 										Temperature NVARCHAR(15),
 										WindSpeed NVARCHAR(15),
@@ -71,7 +71,7 @@ namespace DataAccess.DatabaseHelper
 										Snowfall NVARCHAR(15),
 										CloudCover NVARCHAR(15),
 										Pressure NVARCHAR(15),
-										FOREIGN KEY (WeatherDetailId) REFERENCES WeatherDetails(Id));
+										FOREIGN KEY (WeatherDetailGuid) REFERENCES WeatherDetails(Guid));
 
                 END
 

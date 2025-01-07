@@ -18,10 +18,12 @@ builder.Services.AddSingleton(new DatabaseContext(
 ));
 
 builder.Services.AddScoped<IOpenMeteoService, OpenMeteoService>();
+builder.Services.AddHostedService<WeatherForecastBackgroundWorker>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IWeatherManagerService, WeatherManagerService>();
 builder.Services.AddScoped<IWeatherDetailRepository, WeatherDetailRepository>();
 builder.Services.AddScoped<IWeatherDetailUnitsRepository, WeatherDetailUnitsRepository>();
+builder.Services.AddSingleton<IWeatherForecastQueueService, WeatherForecastQueueService>();
 builder.Services.AddScoped<IDbConnection>(sp => new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Logging.AddEventLog();
 

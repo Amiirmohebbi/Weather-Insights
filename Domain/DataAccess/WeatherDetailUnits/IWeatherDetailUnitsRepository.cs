@@ -2,6 +2,6 @@
 {
 	public interface IWeatherDetailUnitsRepository : IWeatherDetailUnitsReaderRepository
 	{
-		int AddWeatherDetailUnits(DataModel.WeatherDetailUnits weatherDataUnits);
+		void AddWeatherDetailUnits(IEnumerable<DataModel.WeatherDetailUnits> weatherDataUnits);
 	}
 }
