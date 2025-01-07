@@ -35,7 +35,7 @@ namespace DataAccess.DatabaseHelper
 										Latitude FLOAT,
 										Longitude FLOAT,
 										TimeZone VARCHAR(25),
-										CreatedAt DATETIME DEFAULT GETDATE());
+										CreatedDate DATETIME DEFAULT GETDATE());
 
                 END
 

@@ -13,7 +13,7 @@ namespace Domain.Mapping
 				Latitude = weatherForecastDto.Latitude,
 				Longitude = weatherForecastDto.Longitude,
 				TimeZone = weatherForecastDto.Timezone,
-				CreatedAt = DateTime.Now
+				CreatedDate = DateTime.Now
 			};
 		}
 	}
