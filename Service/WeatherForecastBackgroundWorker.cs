@@ -53,7 +53,7 @@ namespace Service
 					}
 				}
 
-				await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
+				await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
 			}
 		}
 
