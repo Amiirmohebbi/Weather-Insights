@@ -28,7 +28,7 @@ namespace Service.WeatherService
 			this.openMeteoService = openMeteoService;
 		}
 
-		public Task<WeatherForecastDto> GetLastWeatherAsyncByLocation(float latitude, float longitude)
+		public Task<WeatherForecastDto> GetLastWeatherByLocationAsync(float latitude, float longitude)
 		{
 			return locationRepository.GetWeatherByLocationAsync(latitude, longitude);
 		}

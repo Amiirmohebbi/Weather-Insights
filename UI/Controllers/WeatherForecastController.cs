@@ -44,7 +44,7 @@ namespace UI.Controllers
 			{
 				logger.LogError(ex, "An error occurred while fetching weather data for {@WeatherFetcherModel}", weatherFetcherModel);
 
-				var result = await weatherManagerService.GetLastWeatherAsyncByLocation(weatherFetcherModel.Latitude, weatherFetcherModel.Longitude);
+				var result = await weatherManagerService.GetLastWeatherByLocationAsync(weatherFetcherModel.Latitude, weatherFetcherModel.Longitude);
 
 				if (result != null) 
 				{

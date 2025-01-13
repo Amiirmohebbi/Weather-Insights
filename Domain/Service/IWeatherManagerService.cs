@@ -5,7 +5,7 @@ namespace Domain.Service
 	public interface IWeatherManagerService
 	{
 		Task<WeatherForecastDto> GetWeatherAsync(WeatherFetcherDto weatherFetcherDto);
-		Task<WeatherForecastDto> GetLastWeatherAsyncByLocation(float latitude, float longitude);
+		Task<WeatherForecastDto> GetLastWeatherByLocationAsync(float latitude, float longitude);
 		void ManageWeatherData(IEnumerable<WeatherForecastDto> weatherForecastDtos);
 	}
 }

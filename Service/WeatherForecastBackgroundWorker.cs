@@ -29,14 +29,9 @@ namespace Service
 
 					var batch = new List<WeatherForecastDto>();
 
-					if (weatherForecastQueueService.GetBuffer().TryDequeue(out var data))
+					while (weatherForecastQueueService.GetBuffer().TryDequeue(out var data))
 					{
 						batch.Add(data);
-
-						while (weatherForecastQueueService.GetBuffer().TryDequeue(out var nextData))
-						{
-							batch.Add(nextData);
-						}
 					}
 
 					if (batch.Any())
