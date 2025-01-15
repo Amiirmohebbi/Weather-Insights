@@ -20,21 +20,8 @@ namespace UI.Controllers
 		}
 
 		[HttpGet(Name = "GetWeatherForecast")]
-		public async Task<IActionResult> Get([FromHeader] Guid userId, [FromQuery] string latitude, [FromQuery] string longitude)
+		public async Task<IActionResult> Get(WeatherFetcherViewModel weatherFetcherModel)
 		{
-			
-			var weatherFetcherModel = new WeatherFetcherViewModel() 
-			{
-				UserId = userId,
-				Latitude = float.TryParse(latitude, CultureInfo.InvariantCulture, out float convertedLatitude) ? convertedLatitude : 91,
-				Longitude = float.TryParse(longitude, CultureInfo.InvariantCulture, out float convertedLongitude) ? convertedLongitude : 181
-			};
-
-			if (!ValidateLocation(weatherFetcherModel.Latitude, weatherFetcherModel.Longitude)) 
-			{
-				return StatusCode(StatusCodes.Status400BadRequest, "Latitude must be in range of -90 to 90° and Longitude must be in range of -180 to 180°.");
-			}
-			
 			try
 			{
 				var result = await weatherManagerService.GetWeatherAsync(weatherFetcherModel.ToDto());
@@ -60,14 +47,6 @@ namespace UI.Controllers
 
 				return StatusCode(StatusCodes.Status500InternalServerError);
 			}
-		}
-
-		private bool ValidateLocation(float latitude, float longitude)
-		{
-			bool isLatitudeValid = latitude >= -90 && latitude <= 90;
-			bool isLongitudeValid = longitude >= -180 && longitude <= 180;
-
-			return isLatitudeValid && isLongitudeValid;
 		}
 	}
 }
