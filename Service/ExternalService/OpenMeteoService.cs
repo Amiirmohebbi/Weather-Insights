@@ -19,19 +19,29 @@ namespace Service.ExternalService
 
 		public async Task<WeatherForecastDto> GetWeatherByLocationAsync(WeatherFetcherDto weatherFetcherDto)
 		{
-			var weatherData = await openMeteoClient.QueryAsync(new WeatherForecastOptions
+			var timeoutTask = Task.Delay(10 * 1000);
+
+			var weatherData = openMeteoClient.QueryAsync(new WeatherForecastOptions
 			{
 				Latitude = weatherFetcherDto.Latitude,
 				Longitude = weatherFetcherDto.Longitude,
 				Current = CurrentOptions.All
 			}) ?? throw new Exception("an error accured.");
 
-			var result = weatherData.ToDto(weatherFetcherDto.UserId);
+			var completedTask = await Task.WhenAny(weatherData, timeoutTask);
 
 
-			weatherForecastQueueService.AddToBuffer(result);
+			if (completedTask == weatherData)
+			{
+				 var result = weatherData.Result.ToDto(weatherFetcherDto.UserId);
+				weatherForecastQueueService.AddToBuffer(result);
 
-			return result;
+				return result;
+			}
+			else 
+			{
+				throw new TimeoutException("The external service call timed out.");
+			}
 		}
 	}
 }
